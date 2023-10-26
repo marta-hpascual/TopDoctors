@@ -20,7 +20,9 @@ En este proyecto se propone como solución al primer punto, trabajar con dos bas
 > - mongo-db-data: contendrá la información relacionada con síntomas o una enfermedad específica, en este caso, con el diagnóstico del paciente.
 
 El segundo punto de confidencialidad ha sido trabajado solo por encima.
+
 Se ha establecido un sistema de usuarios y roles con distintos permisos para poder leer, modificar o añadir información en el sistema. De este modo, se requerirá autenticación para poder realizar las peticiones. En concreto se ha utilizado [JSON_Web_Token](https://en.wikipedia.org/wiki/JSON_Web_Token). Cuando los usuarios se crean o logean en el sistema, reciben un token generado a partir de su id y su role, con un periodo de expiración.
+
 Por otro lado, se utiliza la librería crypto para encriptar la información de ids que se facilita via API, es decir, el usuario nunca tendrá el id real del objeto solicitado, y la única forma de que se pueda utilizar para obtener información es que el sistema lo desencripte utilizando la misma SECRET_KEY_CRYPTO.
 
 #### 3. Modelos de datos
@@ -97,7 +99,9 @@ const PatientSchema = Schema({
 
 Los pacientes quedan relacionados mediante el campo createdBy con el usuario que los creo (con su identificador).
 
-Por ahora se permite tanto a Usuarios como Administradores crear Pacientes. Esto podría definirse de forma diferente segun nuestros intereses, por ejemplo se podría utilizar como estrategia que el admin sea simplemente un manager de usuarios y que sea cada usuario el que tenga un paciente asociado. O se podría también eliminar el nivel de User, ya que se asumiese que ningun usuario/paciente tuviese que acceder a esta API y entonces fuese el Admin quien crease los pacientes. Esto sería importante decidirlo antes de implementar lógicas de delete de información, o también surgen dudas respecto a si un usuario se crea después en la plataforma y tuviesemos que migrar la información del Admin (porque ya hubiese creado su perfil) a este usuario.
+Por ahora se permite tanto a Usuarios como Administradores crear Pacientes.
+
+Esto podría definirse de forma diferente segun nuestros intereses, por ejemplo se podría utilizar como estrategia que el admin sea simplemente un manager de usuarios y que sea cada usuario el que tenga un paciente asociado. O se podría también eliminar el nivel de User, ya que se asumiese que ningun usuario/paciente tuviese que acceder a esta API y entonces fuese el Admin quien crease los pacientes. Esto sería importante decidirlo antes de implementar lógicas de delete de información, o también surgen dudas respecto a si un usuario se crea después en la plataforma y tuviesemos que migrar la información del Admin (porque ya hubiese creado su perfil) a este usuario.
 
 Hasta aquí, todos estos datos se almacenarán en la base de datos de mongo-db-accounts.
 
@@ -134,13 +138,13 @@ Para ello los pasos a seguir serían:
 3. En este punto podemos seguir creando usuarios con role "User" utilizando /users/signup.
 4. Si queremos parar las pruebas y continuar en otro momento, siempre podemos utilizar /users/signin para obtener un token de acceso y el id del usuario.
 5. Tenemos otras dos peticiones de usuarios que pueden resultarnos utiles:
-   > 5.a. Put /users/{userId}, para actualizar la información del usuario
-   > 5.b. Get /admin/users/{groupName} que solo pueden utilizarla los administradores y es para obtener la lista de usuarios del grupo de pacientes
+   > - 5.a. Put /users/{userId}, para actualizar la información del usuario
+   > - 5.b. Get /admin/users/{groupName} que solo pueden utilizarla los administradores y es para obtener la lista de usuarios del grupo de pacientes
 6. Del mismo modo, solo para administradores, se exponen los distintos endpoints para el management de los grupos.
 7. Con el post a /patients/{userId} podemos crear pacientes asociados a ese usuario y con el get /patients/{userId} podemos listar todos los pacientes de un usuario.
 8. De nuevo tenemos otras dos peticiones de pacientes que pueden resultarnos utiles:
-   > 8.a. put /patients/{patientId} para actualizar un paciente
-   > 8.b. get /admin/patients/{groupName}, solo para administradores, para obtener el listado de pacientes del grupo.
+   > - 8.a. put /patients/{patientId} para actualizar un paciente
+   > - 8.b. get /admin/patients/{groupName}, solo para administradores, para obtener el listado de pacientes del grupo.
 9. Ya podemos crear un diagnostico asociado a un paciente con el post /diagnosis/{patientId} o leer todos los diagnosticos asociados a un paciente con el get a /diagnosis/{patientId}
 10. Por último, se expone otro endpoint para los administradores para que puedan consultar los diagnósticos de todos los pacientes de su grupo. En este endpoint ademas permitimos filtrar por el nombre del paciente (es un filtro exacto) o por la fecha de creación del diagnostico (indicando un rango de fechas excluyente: start_date > date > end_date).
 
