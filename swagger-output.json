@@ -1,0 +1,842 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "TOPDoctors API",
+      "description": "Documentation for the API exposed."
+    },
+    "host": "localhost:3000",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Users",
+            "description": "Endpoints"
+          },
+          {
+            "name": "Groups",
+            "description": "Endpoints"
+          },
+          {
+            "name": "Patients",
+            "description": "Endpoints"
+          },
+          {
+            "name": "Diagnosis",
+            "description": "Endpoints"
+          }
+    ],
+    "schemes": [
+      "http"    ],
+    "securityDefinitions": {
+      "Authorization": {
+        "type": "apiKey",
+        "name": "authorization",
+        "in": "header",
+        "description": "Enter the token with the `Bearer: ` prefix, e.g. 'Bearer abcde12345'"
+      }
+    },
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/groups": {
+        "get": {
+          "tags": ["Groups"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+          ],
+          "responses": {
+            "200": {
+                "schema": {
+                    "$ref": "#/definitions/Group"
+                },
+                "description": "List of groups"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/groups/{groupName}": {
+        "get": {
+            "tags": ["Groups"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "groupName",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Group"
+            },
+              "description": "Group"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/groups/{userId}": {
+        "post": {
+          "tags": ["Groups"],
+          "description": "",
+          "produces": [
+            "application/xml"
+          ],
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "obj",
+                "in": "body",
+                "description": "Group information.",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/AddGroup"
+                }
+              }
+          ],
+          "responses": {
+            "200": {
+              "description": "New Token for access to the api"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        },
+        "put": {
+            "tags": ["Groups"],
+            "description": "",
+            "security": [
+                {
+                   "Authorization": []
+                }
+              ],
+            "produces": [
+              "application/xml"
+            ],
+            "parameters": [
+              {
+                "name": "userId",
+                "in": "path",
+                "required": true,
+                "type": "string"
+              },
+              {
+                  "name": "obj",
+                  "in": "body",
+                  "description": "Group information.",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/UpdateGroup"
+                  }
+                }
+            ],
+            "responses": {
+              "200": {
+                "description": "Group updated"
+              },
+              "500": {
+                "description": "Not Found or any error"
+              }
+            }
+        }
+      },
+      "/users/new_admin":{
+        "post": {
+            "tags": ["Users"],
+            "description": "",
+            "produces": [
+              "application/xml"
+            ],
+            "parameters": [
+                {
+                  "name": "obj",
+                  "in": "body",
+                  "description": "User information.",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/AddUser"
+                  }
+                }
+            ],
+            
+            "responses": {
+              "200": {
+                "description": "New Token for access to the api and user_id encrypted"
+              },
+              "500": {
+                "description": "Not Found or any error"
+              }
+            }
+        }
+      },
+      "/users/signup":{
+        "post": {
+            "tags": ["Users"],
+            "description": "",
+            "produces": [
+              "application/xml"
+            ],
+            "parameters": [
+                {
+                  "name": "obj",
+                  "in": "body",
+                  "description": "User information.",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/AddUser"
+                  }
+                }
+            ],
+            "responses": {
+              "200": {
+                "description": "New Token for access to the api and user_id encrypted"
+              },
+              "500": {
+                "description": "Not Found or any error"
+              }
+            }
+        }
+      },
+      "/users/signin":{
+        "post": {
+            "tags": ["Users"],
+            "description": "",
+            "produces": [
+              "application/xml"
+            ],
+            "parameters": [
+                {
+                  "name": "obj",
+                  "in": "body",
+                  "description": "User information.",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/SignInUser"
+                  }
+                }
+            ],
+            "responses": {
+              "200": {
+                "description": "New Token for access to the api and user_id encrypted"
+              },
+              "500": {
+                "description": "Not Found or any error"
+              }
+            }
+        }
+      },
+      "/users/{userId}": {
+        "get": {
+            "tags": ["Users"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/User"
+            },
+              "description": "User"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        },
+        "put": {
+            "tags": ["Users"],
+            "description": "",
+            "security": [
+                {
+                   "Authorization": []
+                }
+              ],
+            "produces": [
+                "application/xml"
+            ],
+            "parameters": [
+                {
+                    "name": "userId",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "obj",
+                    "in": "body",
+                    "description": "User information.",
+                    "required": true,
+                    "schema": {
+                      "$ref": "#/definitions/SignInUser"
+                    }
+                }
+            ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/User"
+            },
+              "description": "User"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/admin/users/{groupName}": {
+        "get": {
+            "tags": ["Users"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "groupName",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/User"
+            },
+              "description": "Lis Users of the group"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/patients/{userId}": {
+        "get": {
+            "tags": ["Patients"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Patient"
+            },
+              "description": "List patients"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        },
+        "post": {
+            "tags": ["Patients"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "obj",
+                "in": "body",
+                "description": "Patient information.",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/AddPatient"
+                }
+              }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Patient"
+            },
+              "description": "List patients"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/patients/{patientId}": {
+        "put": {
+            "tags": ["Patients"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "patientId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "obj",
+                "in": "body",
+                "description": "Patient information.",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/AddPatient"
+                }
+              }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Patient"
+            },
+              "description": "Patient"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/admin/patients/{groupName}": {
+        "get": {
+            "tags": ["Patients"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "groupName",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Patient"
+            },
+              "description": "Lis Patients of the group"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/diagnosis/{patientId}": {
+        "get": {
+            "tags": ["Diagnosis"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "patientId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Diagnosis"
+            },
+              "description": "List diagnosis"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        },
+        "post": {
+            "tags": ["Diagnosis"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "patientId",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+                "name": "obj",
+                "in": "body",
+                "description": "Diagnosis information.",
+                "required": true,
+                "schema": {
+                  "$ref": "#/definitions/AddDiagnosis"
+                }
+              }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Diagnosis"
+            },
+              "description": "Diagnosis"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      },
+      "/admin/diagnosis/{groupName}": {
+        "get": {
+            "tags": ["Diagnosis"],
+          "description": "",
+          "security": [
+            {
+               "Authorization": []
+            }
+          ],
+          "produces": [
+            "application/xml"
+          ],
+          "parameters": [
+            {
+              "name": "groupName",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "patient_name",
+              "in": "query",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "start_date",
+              "in": "query",
+              "required": false,
+              "type": "date"
+            },
+            {
+              "name": "end_date",
+              "in": "query",
+              "required": false,
+              "type": "date"
+            }
+          ],
+          "responses": {
+            "200": {
+            "schema": {
+                "$ref": "#/definitions/Diagnosis"
+            },
+              "description": "Lis Diagnosis of the group"
+            },
+            "500": {
+              "description": "Not Found or any error"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+        "Group": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Group1"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                }
+            }
+            
+        },
+        "AddGroup": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Group1"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                }
+            }
+        },
+        "UpdateGroup": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "example": "1234"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Group1"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "12345678"
+                },
+                "role":{
+                    "type": "string",
+                    "example": "User"
+                },
+                "group": {
+                    "type": "string",
+                    "example": "Group1"
+                },
+                "signupDate": {
+                    "type": "date",
+                    "example": "10/07/2023"
+                },
+                "lastLogin": {
+                    "type": "date",
+                    "example": "10/09/2023"
+                }
+            }
+            
+        },
+        "AddUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "12345678"
+                },
+                "group": {
+                    "type": "string",
+                    "example": "Group1"
+                }
+            }
+        },
+        "SignInUser": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "admin@admin.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "12345678"
+                }
+            }
+        },
+        "Patient": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Marta"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Herranz"
+                },
+                "email":{
+                    "type": "string",
+                    "example": "marta@patient.com"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+34666666666"
+                },
+                "identifierDoc": {
+                    "type": "string",
+                    "example": "12345678-T"
+                },
+                "createdBy": {
+                    "type": "string",
+                    "example": "12345678",
+                    "$ref": "#/definitions/User"
+                }
+            }
+        },
+        "AddPatient": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Marta"
+                },
+                "lastName": {
+                    "type": "string",
+                    "example": "Herranz"
+                },
+                "email":{
+                    "type": "string",
+                    "example": "marta@patient.com"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "+34666666666"
+                },
+                "identifierDoc": {
+                    "type": "string",
+                    "example": "12345678-T"
+                }
+            }
+        },
+        "Diagnosis": {
+          "type": "object",
+          "properties": {
+              "date": {
+                  "type": "date",
+                  "example": "10/09/2023 10:00:00"
+              },
+              "diagnosis": {
+                  "type": "string",
+                  "example": "Diagnosis1"
+              },
+              "prescription":{
+                  "type": "string",
+                  "example": "Prescription1"
+              },
+              "createdBy": {
+                  "type": "string",
+                  "example": "12345678",
+                  "$ref": "#/definitions/Patient"
+              }
+          }
+        },
+        "AddDiagnosis": {
+          "type": "object",
+          "properties": {
+              "diagnosis": {
+                  "type": "string",
+                  "example": "Diagnosis1"
+              },
+              "prescription":{
+                  "type": "string",
+                  "example": "Prescription1"
+              }
+          }
+        }
+    }
+  
+}

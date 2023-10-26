@@ -1,0 +1,57 @@
+version: "3.4"
+services:
+  topdoctors:
+    image: topdoctors
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    links:
+      - mongo-accounts
+      - mongo-data
+    depends_on:
+      - mongo-accounts
+      - mongo-data
+    volumes:
+      - mongodb-accounts:/data/db-accounts
+      - mongodb-data:/data/db-data
+  mongo-accounts:
+    container_name: mongo-accounts
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-accounts:/data/db-accounts
+    command: [--auth]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_USER=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpsw
+      - MONGODB_ROOT_PASSWORD=rootpsw
+      - MONGO_INITDB_DATABASE=db-accounts
+      - MONGODB_DATABASE=db-accounts
+      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+  mongo-data:
+    container_name: mongo-data
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27018:27017
+    volumes:
+      - mongodb-data:/data/db-data
+    command: [--auth]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_USER=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpsw
+      - MONGODB_ROOT_PASSWORD=rootpsw
+      - MONGO_INITDB_DATABASE=db-data
+      - MONGODB_DATABASE=db-data
+      - MONGODB_ADVERTISED_HOSTNAME=127.0.0.1
+volumes:
+  mongodb-accounts:
+  mongodb-data:

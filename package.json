@@ -1,0 +1,34 @@
+{
+  "name": "topdoctors",
+  "version": "1.0.0",
+  "description": "TopDoctors backend code challenge",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "serve": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/marta-hpascual/TopDoctors.git"
+  },
+  "author": "Marta Herranz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marta-hpascual/TopDoctors/issues"
+  },
+  "homepage": "https://github.com/marta-hpascual/TopDoctors#readme",
+  "dependencies": {
+    "async": "^3.2.4",
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "js-sha512": "^0.8.0",
+    "jwt-simple": "^0.5.6",
+    "moment": "^2.29.4",
+    "mongoose": "^7.6.3",
+    "nodemon": "^3.0.1",
+    "swagger-autogen": "^2.23.6",
+    "swagger-ui-express": "^5.0.0"
+  }
+}
